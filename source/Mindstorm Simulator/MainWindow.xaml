@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Mindstorm_Simulator"
         mc:Ignorable="d"
-        Title="Mindstorms Simulator" Height="1080" Width="1920">
+        Title="Mindstorms Simulator" Height="540" Width="960">
     <Grid>
 
     </Grid>
