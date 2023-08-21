@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Mindstorm_Simulator.MVVM.Model;
+using Mindstorm_Simulator.MVVM.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +25,19 @@ namespace Mindstorm_Simulator
         public MainWindow()
         {
             InitializeComponent();
+
+            FileManager.LoadProjectFiles();
+            Management.Setup(this);
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if(FileManager.SaveProjectFiles() == Code.ERROR)
+            {
+                e.Cancel = true;
+                // keep program open to perform operations (such as logging), then clode
+            }
+
         }
     }
 }

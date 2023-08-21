@@ -5,23 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Mindstorm_Simulator"
         mc:Ignorable="d"
-        Title="Mindstorms Simulator" Height="540" Width="960" MinHeight="540" MinWidth="960">
+        Title="Mindstorms Simulator" Height="540" Width="960" MinHeight="540" MinWidth="960"
+        Closing="Window_Closing">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Border Grid.Column="0" Margin="50" BorderBrush="LightGray" BorderThickness="2">
-            <ScrollViewer>
-                <StackPanel>
-                
+        <Border Grid.Column="0" Margin="50" BorderBrush="LightGray" BorderThickness="2" CornerRadius="5">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel x:Name="ProjectsStack">
+                    <TextBlock x:Name="RecentProjectBlock" HorizontalAlignment="Center" FontSize="20" Text="No Recent Projects"/>
                 </StackPanel>
             </ScrollViewer>
         </Border>
 
-        <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" >
             <Button Content="Open" Style="{StaticResource MenuButtonTheme}"/>
+            <Button Content="New" Style="{StaticResource MenuButtonTheme}" Margin="0,5,0,0"/>
         </StackPanel>
 
     </Grid>
