@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Text.Json;
+using System.Diagnostics;
 
 namespace Mindstorm_Simulator.MVVM.Model
 {
@@ -39,7 +40,7 @@ namespace Mindstorm_Simulator.MVVM.Model
             // check for files and create them if missing. If there is a fatal error, early return and don't load
             // data from files
             Code response = CheckDirectories();
-            if (response == Code.ERROR) return Code.ERROR;
+            if (response != Code.SUCCESS) return response;
 
             // Load knownProjects
             string knownProjectsString = File.ReadAllText(_ProjectsList);
@@ -47,8 +48,9 @@ namespace Mindstorm_Simulator.MVVM.Model
             {
                 KnownProjects = JsonSerializer.Deserialize<List<Project>>(knownProjectsString) ?? new List<Project>();
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
+                Debug.WriteLine(e.Message);
                 response = Code.WARNING;
             }
 
@@ -85,6 +87,7 @@ namespace Mindstorm_Simulator.MVVM.Model
             }
             catch (Exception e)
             {
+                Debug.WriteLine(e.Message);
                 response = Code.ERROR;
             }
             
