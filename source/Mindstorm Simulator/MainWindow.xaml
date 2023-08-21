@@ -22,7 +22,7 @@
         </Border>
 
         <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" >
-            <Button Content="Open" Style="{StaticResource MenuButtonTheme}"/>
+            <Button Content="Open" Style="{StaticResource MenuButtonTheme}" Click="OpenProject_Click"/>
             <Button Content="New" Style="{StaticResource MenuButtonTheme}" Margin="0,5,0,0"/>
         </StackPanel>
 

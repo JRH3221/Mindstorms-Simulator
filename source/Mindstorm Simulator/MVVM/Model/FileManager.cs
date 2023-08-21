@@ -31,6 +31,29 @@ namespace Mindstorm_Simulator.MVVM.Model
         private const string _StorageDirectory = "Data";
         private const string _ProjectsList = $"{_StorageDirectory}\\Projects.json";
 
+        public static void PickProjectFile()
+        {
+            // Configure open file dialog box
+            var dialog = new Microsoft.Win32.OpenFileDialog();
+            dialog.DefaultExt = ".mnds"; // Default file extension
+            dialog.Filter = "Mindstorm Simulator Project (.mnds)|*.mnds"; // Filter files by extension
+
+            // Show open file dialog box
+            bool? result = dialog.ShowDialog();
+
+            // Process open file dialog box results
+            if (result == true)
+            {
+                // Open document
+                string filename = dialog.FileName;
+            }
+        }
+
+        public static void PickNewProjectDirectory()
+        {
+            
+        }
+
         /// <summary>
         /// Load all project data safely.
         /// </summary>

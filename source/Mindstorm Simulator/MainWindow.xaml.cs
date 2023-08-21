@@ -39,5 +39,10 @@ namespace Mindstorm_Simulator
             }
 
         }
+
+        private void OpenProject_Click(object sender, RoutedEventArgs e)
+        {
+            FileManager.PickProjectFile();
+        }
     }
 }
