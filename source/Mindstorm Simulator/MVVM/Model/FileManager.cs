@@ -12,17 +12,34 @@ namespace Mindstorm_Simulator.MVVM.Model
     public enum Code { SUCCESS = 0, WARNING = 1, ERROR = 2 };
     public class FileManager
     {
+        public static int CurrentID = 0;
+
         public struct Project
         {
+            public enum Type
+            {
+                Soccer = 0,
+                Rescue = 1
+            }
+            public enum Language
+            {
+                Python = 0,
+                Cpp = 1
+            }
+
             public string Directory {  get; set; }
             public string ProjectName { get; set; }
             public int ProjectID { get; set; }
+            public Type ProjectType { get; set; }
+            public Language ProjectLanguage { get; set; }
 
-            public Project(string? directory = null, string? projectName = null, int? ID = null)
+            public Project(string? directory = null, string? projectName = null, int? ID = null, Type? type = null, Language? language = null)
             {
                 Directory = directory ?? "";
                 ProjectName = projectName ?? "";
                 ID = ID ?? -1; // if a project is loaded with -1 it will be removed
+                ProjectType = type ?? Type.Soccer;
+                ProjectLanguage = language ?? Language.Python;
             }
         }
 

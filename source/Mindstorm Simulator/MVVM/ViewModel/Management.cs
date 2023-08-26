@@ -11,6 +11,7 @@ namespace Mindstorm_Simulator.MVVM.ViewModel
 {
     class Management
     {
+
         public static void Setup(MainWindow mainWindow) 
         {
             if (FileManager.KnownProjects.Count > 0)

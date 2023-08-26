@@ -1,7 +1,9 @@
 ﻿using Mindstorm_Simulator.MVVM.Model;
+using Mindstorm_Simulator.MVVM.View;
 using Mindstorm_Simulator.MVVM.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,12 +24,18 @@ namespace Mindstorm_Simulator
     /// </summary>
     public partial class MainWindow : Window
     {
+
         public MainWindow()
         {
             InitializeComponent();
 
             FileManager.LoadProjectFiles();
             Management.Setup(this);
+        }
+
+        public void SetandOpenProject(FileManager.Project project)
+        {
+            Debugger.Break();
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -44,5 +52,13 @@ namespace Mindstorm_Simulator
         {
             FileManager.PickProjectFile();
         }
+
+        private void NewProject_Click(object sender, RoutedEventArgs e)
+        {
+            NewProjectWindow newProjectWindow = new NewProjectWindow(this);
+            newProjectWindow.ShowDialog();
+        }
+
+
     }
 }
