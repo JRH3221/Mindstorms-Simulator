@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "MindstormSimulator (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "MindstormSimulator (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
