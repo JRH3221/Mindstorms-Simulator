@@ -58,7 +58,9 @@ namespace MindstormSimulator
 
         private void New_Click(object sender, RoutedEventArgs e)
         {
-
+            NewProjectDialogue newProjectDialogue = new(this);
+            newProjectDialogue.AppWindow.Resize(new Windows.Graphics.SizeInt32(500, 400));
+            newProjectDialogue.Activate();
         }
 
         private async void Window_Closed(object sender, WindowEventArgs args)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.UI.Composition.Interactions;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.Storage.Pickers;
+using Windows.Storage.Pickers.Provider;
 using WinRT.Interop;
 
 namespace MindstormSimulator.MVVM.Model
@@ -48,6 +50,8 @@ namespace MindstormSimulator.MVVM.Model
         private const bool msixPackaged = false;
 
         private const string _ProjectsList = "Projects.json";
+
+        public static int ID = 0;
         public static async Task<bool> LoadProjectFiles()
         {
             // this warning is fine, the if else if only here to make switching packaged modes easier, depending on the mode true/false won't be available
@@ -71,6 +75,13 @@ namespace MindstormSimulator.MVVM.Model
                 try
                 {
                     Projects = JsonSerializer.Deserialize<List<Project>>(jsonString);
+                    foreach(Project project in Projects)
+                    {
+                        if(project.ProjectID >= ID)
+                        {
+                            ID = project.ProjectID + 1;
+                        }
+                    }
                 }
                 catch { }
             }
@@ -82,7 +93,11 @@ namespace MindstormSimulator.MVVM.Model
             if(await  CheckFiles())
             {
                 StorageFile projectsListFile = await GetFile(_ProjectsList);
-                string jsonString = JsonSerializer.Serialize(Projects);
+                JsonSerializerOptions jsonOptions = new JsonSerializerOptions
+                {
+                    WriteIndented = true
+                };
+                string jsonString = JsonSerializer.Serialize(Projects, jsonOptions);
                 await FileIO.WriteTextAsync(projectsListFile, jsonString);
             }
             return true;
@@ -95,6 +110,10 @@ namespace MindstormSimulator.MVVM.Model
             try
             {
                 project = JsonSerializer.Deserialize<Project?>(jsonString);
+                if (((Project)project).ProjectID >= ID)
+                {
+                    ID = ((Project)project).ProjectID + 1;
+                }
             }
             catch { }
             return project;
@@ -128,6 +147,22 @@ namespace MindstormSimulator.MVVM.Model
             }
 
             return;
+        }
+
+        public static async Task<string> OpenFolderDialogue(object window)
+        {
+            FolderPicker folderPicker = new FolderPicker();
+
+            nint windowHandle = WindowNative.GetWindowHandle(window);
+            InitializeWithWindow.Initialize(folderPicker, windowHandle);
+
+            StorageFolder folder = await folderPicker.PickSingleFolderAsync();
+
+            if(folder != null)
+            {
+                return folder.Path;
+            }
+            return "";
         }
 
         private static async Task<bool> CheckFiles()
