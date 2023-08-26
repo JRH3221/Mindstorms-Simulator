@@ -6,11 +6,13 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using MindstormSimulator.MVVM.Model;
+using MindstormSimulator.MVVM.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
@@ -31,14 +33,40 @@ namespace MindstormSimulator
             Setup();
         }
 
-        private async void Setup()
+        public void LoadProject(FileManager.Project project)
         {
-            await FileManager.LoadProjectFiles();
+            
         }
 
-        private void myButton_Click(object sender, RoutedEventArgs e)
+        private async void Setup()
         {
-            myButton.Content = "Clicked";
+            if(await FileManager.LoadProjectFiles())
+            {
+                foreach(var project in FileManager.Projects)
+                {
+                    ListButton listButton = new ListButton(project);
+                    RecentStack.Children.Add(listButton);
+                }
+            }
+            
+        }
+
+        private async void Open_Click(object sender, RoutedEventArgs e)
+        {
+            await FileManager.OpenFileDialogue(this);
+        }
+
+        private void New_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private async void Window_Closed(object sender, WindowEventArgs args)
+        {
+            if (await FileManager.SaveProjectFiles())
+            {
+                return;
+            }
         }
     }
 }

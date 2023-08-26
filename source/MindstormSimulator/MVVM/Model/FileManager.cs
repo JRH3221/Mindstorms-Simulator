@@ -7,6 +7,8 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.Storage;
+using Windows.Storage.Pickers;
+using WinRT.Interop;
 
 namespace MindstormSimulator.MVVM.Model
 {
@@ -46,7 +48,7 @@ namespace MindstormSimulator.MVVM.Model
         private const bool msixPackaged = false;
 
         private const string _ProjectsList = "Projects.json";
-        public static async Task LoadProjectFiles()
+        public static async Task<bool> LoadProjectFiles()
         {
             // this warning is fine, the if else if only here to make switching packaged modes easier, depending on the mode true/false won't be available
 #pragma warning disable CS0162 // Unreachable code detected
@@ -72,6 +74,60 @@ namespace MindstormSimulator.MVVM.Model
                 }
                 catch { }
             }
+            return true;
+        }
+
+        public static async Task<bool> SaveProjectFiles()
+        {
+            if(await  CheckFiles())
+            {
+                StorageFile projectsListFile = await GetFile(_ProjectsList);
+                string jsonString = JsonSerializer.Serialize(Projects);
+                await FileIO.WriteTextAsync(projectsListFile, jsonString);
+            }
+            return true;
+        }
+
+        public static async Task<Project?> LoadFile(StorageFile file)
+        {
+            string jsonString = await FileIO.ReadTextAsync(file);
+            Project? project = null;
+            try
+            {
+                project = JsonSerializer.Deserialize<Project?>(jsonString);
+            }
+            catch { }
+            return project;
+        }
+
+        public static async Task OpenFileDialogue(MainWindow mainWindow)
+        {
+            FileOpenPicker fileOpenPicker = new()
+            {
+                ViewMode = PickerViewMode.Thumbnail,
+                FileTypeFilter = { ".mnds" },
+            };
+
+            nint windowHandle = WindowNative.GetWindowHandle(mainWindow);
+            InitializeWithWindow.Initialize(fileOpenPicker, windowHandle);
+
+            StorageFile file = await fileOpenPicker.PickSingleFileAsync();
+
+            if (file != null)
+            {
+                Project? project = await LoadFile(file);
+                if(project is not null)
+                {
+                    if (!Projects.Contains((Project)project))
+                    {
+                        Projects.Add((Project)project);
+                    }
+
+                    mainWindow.LoadProject((Project)project);
+                }
+            }
+
+            return;
         }
 
         private static async Task<bool> CheckFiles()
