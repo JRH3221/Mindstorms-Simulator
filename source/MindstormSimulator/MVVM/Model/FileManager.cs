@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Windows.ApplicationModel;
 using Windows.Storage;
 
 namespace MindstormSimulator.MVVM.Model
@@ -40,17 +42,35 @@ namespace MindstormSimulator.MVVM.Model
         }
 
         public static List<Project> Projects = new();
+        private static StorageFolder _StorageDirectory = null;
+        private const bool msixPackaged = false;
 
-        private static readonly StorageFolder _StorageDirectory = ApplicationData.Current.LocalFolder;
         private const string _ProjectsList = "Projects.json";
-        public async static Task LoadProjectFiles()
+        public static async Task LoadProjectFiles()
         {
+            // this warning is fine, the if else if only here to make switching packaged modes easier, depending on the mode true/false won't be available
+#pragma warning disable CS0162 // Unreachable code detected
+            if (!msixPackaged)
+            {
+                _StorageDirectory = await GetFolder();
+            }
+            else
+            {
+                _StorageDirectory = ApplicationData.Current.LocalFolder;
+            }
+#pragma warning restore CS0162 // Unreachable code detected
+            Debug.WriteLine(_StorageDirectory.Path);
+
             if (await CheckFiles())
             {
                 StorageFile projectsListFile = await GetFile(_ProjectsList);
                 string jsonString = await FileIO.ReadTextAsync(projectsListFile);
 
-                Projects = JsonSerializer.Deserialize<List<Project>>(jsonString);
+                try
+                {
+                    Projects = JsonSerializer.Deserialize<List<Project>>(jsonString);
+                }
+                catch { }
             }
         }
 
@@ -63,6 +83,19 @@ namespace MindstormSimulator.MVVM.Model
             }
 
             return passed;
+        }
+
+        private static async Task<StorageFolder> GetFolder()
+        {
+            StorageFolder appData = await StorageFolder.GetFolderFromPathAsync(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
+            if(await appData.TryGetItemAsync("MindstormSimulator") == null)
+            {
+                return await appData.CreateFolderAsync("MindstormSimulator");
+            }
+            else
+            {
+                return (StorageFolder)await appData.TryGetItemAsync("MindstormSimulator");
+            }
         }
 
         /// <summary>

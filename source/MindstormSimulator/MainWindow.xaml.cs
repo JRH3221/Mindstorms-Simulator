@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using MindstormSimulator.MVVM.Model;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -26,6 +27,13 @@ namespace MindstormSimulator
         public MainWindow()
         {
             this.InitializeComponent();
+
+            Setup();
+        }
+
+        private async void Setup()
+        {
+            await FileManager.LoadProjectFiles();
         }
 
         private void myButton_Click(object sender, RoutedEventArgs e)
