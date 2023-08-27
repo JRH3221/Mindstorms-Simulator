@@ -46,7 +46,7 @@ namespace MindstormSimulator.MVVM.Model
         }
 
         public static List<Project> Projects = new();
-        private static StorageFolder _StorageDirectory = null;
+        public static StorageFolder _StorageDirectory = null;
         private const bool msixPackaged = false;
 
         private const string _ProjectsList = "Projects.json";
@@ -152,6 +152,7 @@ namespace MindstormSimulator.MVVM.Model
         public static async Task<string> OpenFolderDialogue(object window)
         {
             FolderPicker folderPicker = new FolderPicker();
+            folderPicker.SuggestedStartLocation = PickerLocationId.ComputerFolder;
 
             nint windowHandle = WindowNative.GetWindowHandle(window);
             InitializeWithWindow.Initialize(folderPicker, windowHandle);
@@ -163,6 +164,16 @@ namespace MindstormSimulator.MVVM.Model
                 return folder.Path;
             }
             return "";
+        }
+
+        public static async Task CreateDirectory(string path, string name, Project project) 
+        {
+            StorageFolder folder = await StorageFolder.GetFolderFromPathAsync(path);
+            StorageFolder projectDirectory = await folder.CreateFolderAsync(name, CreationCollisionOption.ReplaceExisting);
+            StorageFile projectFile = await projectDirectory.CreateFileAsync("main.mnds");
+
+            string jsonString = JsonSerializer.Serialize(project);
+            await FileIO.WriteTextAsync(projectFile, jsonString);
         }
 
         private static async Task<bool> CheckFiles()

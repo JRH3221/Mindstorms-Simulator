@@ -9,32 +9,38 @@
     mc:Ignorable="d" Closed="Window_Closed">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" MinHeight="400" MinWidth="800">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
 
-        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MinWidth="400" Padding="100,0,100,0" Margin="0,100,0,100">
-            <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="0,0,15,0">
-                <StackPanel x:Name="RecentStack" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+        <Grid x:Name="MainGrid">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MinWidth="400" Padding="100,0,100,0" Margin="0,100,0,100">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="0,0,15,0">
+                    <StackPanel x:Name="RecentStack" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
                     
-                </StackPanel>
-            </ScrollViewer>
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+        
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Spacing="10">
+                <Button Click="Open_Click" Width="400" Height="100" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Text="Open" FontSize="30" Margin="0,5,0,0"/>
+                        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Bottom" Foreground="{ThemeResource SystemBaseMediumColor}" Text="Open an existing project" FontSize="20" Margin="0,0,0,5"/>
+                    </Grid>
+                </Button>
+                <Button Click="New_Click" Width="400" Height="100" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Text="New" FontSize="30" Margin="0,5,0,0"/>
+                        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Bottom" Foreground="{ThemeResource SystemBaseMediumColor}" Text="Create a new project" FontSize="20" Margin="0,0,0,5"/>
+                    </Grid>
+                </Button>
+            </StackPanel>
         </Grid>
         
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Spacing="10">
-            <Button Click="Open_Click" Width="400" Height="100" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
-                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Text="Open" FontSize="30" Margin="0,5,0,0"/>
-                    <TextBlock HorizontalAlignment="Left" VerticalAlignment="Bottom" Foreground="{ThemeResource SystemBaseMediumColor}" Text="Open an existing project" FontSize="20" Margin="0,0,0,5"/>
-                </Grid>
-            </Button>
-            <Button Click="New_Click" Width="400" Height="100" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
-                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Text="New" FontSize="30" Margin="0,5,0,0"/>
-                    <TextBlock HorizontalAlignment="Left" VerticalAlignment="Bottom" Foreground="{ThemeResource SystemBaseMediumColor}" Text="Create a new project" FontSize="20" Margin="0,0,0,5"/>
-                </Grid>
-            </Button>
-        </StackPanel>
+        
+        <Frame x:Name="MainFrame" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Collapsed"/>
     </Grid>
 </Window>

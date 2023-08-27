@@ -29,16 +29,19 @@ namespace MindstormSimulator.MVVM.ViewModel
         {
             this.InitializeComponent();
             this.MainWindow = mainWindow;
+            DirectoryBox.Text = FileManager._StorageDirectory.Path;
         }
 
-        private void Continue_Click(object sender, RoutedEventArgs e)
+        private async void Continue_Click(object sender, RoutedEventArgs e)
         {
             FileManager.Project project = new FileManager.Project();
             project.ProjectID = FileManager.ID;
             project.ProjectName = NameBox.Text;
-            project.Directory = DirectoryBox.Text;
+            project.Directory = $"{DirectoryBox.Text}\\{NameBox.Text}";
             project.ProjectType = (FileManager.Project.Type)TypeBox.SelectedIndex;
             project.ProjectLanguage = (FileManager.Project.Language)LanguageBox.SelectedIndex;
+
+            await FileManager.CreateDirectory(DirectoryBox.Text, NameBox.Text, project);
 
             FileManager.Projects.Add(project);
             MainWindow.LoadProject(project);
@@ -53,7 +56,11 @@ namespace MindstormSimulator.MVVM.ViewModel
 
         private async void Directory_Click(object sender, RoutedEventArgs e)
         {
-            DirectoryBox.Text = await FileManager.OpenFolderDialogue(this);
+            string path = await FileManager.OpenFolderDialogue(this);
+            if (path != "" && path != null)
+            {
+                DirectoryBox.Text = path;
+            }
         }
     }
 }

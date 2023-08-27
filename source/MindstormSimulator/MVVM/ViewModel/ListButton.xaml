@@ -8,7 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Button HorizontalAlignment="Stretch" VerticalAlignment="Top" CornerRadius="0" Height="80" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+    <Button Click="Button_Click" HorizontalAlignment="Stretch" VerticalAlignment="Top" CornerRadius="0" Height="80" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
         <Grid>
             <TextBlock x:Name="NameBox" Text="This is a test project" FontSize="25" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5,0,0"/>
             <TextBlock x:Name="DirectoryBox" Text="D:\Test" FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,0,0,5" Foreground="{ThemeResource SystemBaseMediumColor}"/>

@@ -26,6 +26,7 @@ namespace MindstormSimulator
     /// </summary>
     public sealed partial class MainWindow : Window
     {
+        EditorPage _EditorPage;
         public MainWindow()
         {
             this.InitializeComponent();
@@ -33,9 +34,13 @@ namespace MindstormSimulator
             Setup();
         }
 
+        // control of the project is passed to EditorPage from here
         public void LoadProject(FileManager.Project project)
         {
-            
+            MainGrid.Visibility = Visibility.Collapsed;
+            MainFrame.Visibility = Visibility.Visible;
+            _EditorPage = new EditorPage(project);
+            MainFrame.Content = _EditorPage;
         }
 
         private async void Setup()
@@ -44,7 +49,7 @@ namespace MindstormSimulator
             {
                 foreach(var project in FileManager.Projects)
                 {
-                    ListButton listButton = new ListButton(project);
+                    ListButton listButton = new ListButton(project, this);
                     RecentStack.Children.Add(listButton);
                 }
             }

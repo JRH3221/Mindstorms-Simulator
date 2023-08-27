@@ -19,24 +19,15 @@ using Windows.Foundation.Collections;
 
 namespace MindstormSimulator.MVVM.ViewModel
 {
-    public sealed partial class ListButton : UserControl
+    /// <summary>
+    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// </summary>
+    public sealed partial class EditorPage : Page
     {
-        FileManager.Project Project { get; set; }
-        MainWindow _mainWindow;
-        public ListButton(FileManager.Project project, MainWindow mainWindow)
+        public EditorPage(FileManager.Project project)
         {
             this.InitializeComponent();
-
-            this.Project = project;
-
-            NameBox.Text = project.ProjectName;
-            DirectoryBox.Text = project.Directory;
-            _mainWindow = mainWindow;
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            _mainWindow.LoadProject(Project);
+            Boxy.Text = project.ProjectName;
         }
     }
 }
