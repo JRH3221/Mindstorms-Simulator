@@ -10,6 +10,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <TextBlock VerticalAlignment="Top" HorizontalAlignment="Center" x:Name="Boxy"/>
+        <Canvas x:Name="CanvasPort" Margin="0,40,0,0" Height="2000" Width="2000" HorizontalAlignment="Left" VerticalAlignment="Top" Background="LightGray"/>
+        <local:MenuBar/>
     </Grid>
 </Page>

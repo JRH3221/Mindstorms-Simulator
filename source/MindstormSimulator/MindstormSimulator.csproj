@@ -15,6 +15,7 @@
   <ItemGroup>
     <None Remove="MVVM\ViewModel\EditorPage.xaml" />
     <None Remove="MVVM\ViewModel\ListButton.xaml" />
+    <None Remove="MVVM\ViewModel\MenuBar.xaml" />
     <None Remove="MVVM\ViewModel\NewProjectDialogue.xaml" />
   </ItemGroup>
 
@@ -45,6 +46,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="MVVM\View\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="MVVM\ViewModel\MenuBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="MVVM\ViewModel\EditorPage.xaml">
